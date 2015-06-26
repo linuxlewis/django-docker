@@ -1,0 +1,19 @@
+db:
+  image: postgres
+
+redis:
+  image: redis
+
+app:
+  build: .
+  command: python3 manage.py runserver 0.0.0.0:3000
+  links:
+    - db
+    - redis
+  environment:
+    - DATABASE_URL=postgres://postgres@db:5432/postgres
+  ports:
+    - "3000:3000"
+  volumes:
+    - ".:/code"
+
